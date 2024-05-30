@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app_youtube/bloc/weather_bloc_bloc.dart';
+import 'package:weather_app_youtube/cubit/cubit.dart';
 import 'package:weather_app_youtube/screens/home_screen.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -19,9 +19,9 @@ class MainApp extends StatelessWidget {
             future: _determinePosition(),
             builder: (context, snap) {
               if (snap.hasData) {
-                return BlocProvider<WeatherBlocBloc>(
-                  create: (context) => WeatherBlocBloc()
-                    ..add(FetchWeather(snap.data as Position)),
+                return BlocProvider<WeatherCubit>(
+                  create: (context) => WeatherCubit()
+                    ..fetchWeather(snap.data as Position),
                   child: const HomeScreen(),
                 );
               } else {

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app_youtube/bloc/weather_bloc_bloc.dart';
+import 'package:weather_app_youtube/cubit/cubit.dart';
+import 'package:weather_app_youtube/cubit/cubit_states.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -84,9 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: const BoxDecoration(color: Colors.transparent),
                 ),
               ),
-              BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
+              BlocBuilder<WeatherCubit, WeatherState>(
                 builder: (context, state) {
-                  if (state is WeatherBlocSuccess) {
+                  if (state is WeatherLoadedState) {
                     return SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
@@ -121,6 +122,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           Center(
                             child: Text(
                               state.weather.weatherMain!.toUpperCase(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              '${state.weather.humidity!}% Humidity',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              '${state.weather.windSpeed!.round()} km/h Wind',
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
